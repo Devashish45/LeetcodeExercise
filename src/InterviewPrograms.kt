@@ -2,7 +2,7 @@ fun interviewPrograms() {
     println("===== Palindrome ====")
     println("The pattern is Palindrome = ${checkPalindrome(121)}")
     println("===== Anagram ====")
-    println("is Anagram = ${isAnagram("abc", "bca")}")
+    println("is Anagram = ${isAnagram("abcer", "bcare")}")
     println("===== max substring ====")
     println("max substring = ${lengthOfLongestSubstring("abcabcbb")}")
     println("===== Has duplicate in array ====")
@@ -35,9 +35,20 @@ fun <T> checkPalindrome(x: T): Boolean {
 
 fun isAnagram(str1: String, str2: String): Boolean {
     if (str1.length != str2.length) return false
+    val charArray = IntArray(26)
+    for (i in str1.indices) {
+        charArray[str1[i] - 'a']++
+    }
+    println(charArray.contentToString())
+    for (j in str2.indices) {
+        charArray[str2[j] - 'a']--
+        if (charArray[str2[j] - 'a'] < 0) return false
+    }
+    return true
 
-    return str1.toCharArray().sorted() ==
-            str2.toCharArray().sorted()
+//
+//    return str1.toCharArray().sorted() ==
+//            str2.toCharArray().sorted()
 }
 
 //  https://www.youtube.com/watch?v=U2ppEzBaMck&list=PLEHBnWmMP--zQnyq4d2_Nj-d3nMKW5QcG&index=8
