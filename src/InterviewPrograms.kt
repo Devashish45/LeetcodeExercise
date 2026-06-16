@@ -3,6 +3,15 @@ fun interviewPrograms() {
     println("The pattern is Palindrome = ${checkPalindrome(121)}")
     println("===== Anagram ====")
     println("is Anagram = ${isAnagram("abc", "bca")}")
+    println("===== max substring ====")
+    println("max substring = ${lengthOfLongestSubstring("abcabcbb")}")
+    println("===== Has duplicate in array ====")
+    val array = intArrayOf(1, 2, 3, 4, 5, 6)
+    println("Has duplicate in array = ${hasDuplicateInArray(array)}")
+    println("===== Two Sum ====")
+    val twoSumArray = intArrayOf(2,1,5,3,7)
+    println("Two Sum = ${twoSum(twoSumArray,12).contentToString()}")
+
 }
 
 fun <T> checkPalindrome(x: T): Boolean {
@@ -24,10 +33,6 @@ fun <T> checkPalindrome(x: T): Boolean {
 //    return input == reversed
 }
 
-fun twoSum(nums: MutableList<Int>?, target: Int): MutableList<Int>? {
-    // your code
-    return null;
-}
 fun isAnagram(str1: String, str2: String): Boolean {
     if (str1.length != str2.length) return false
 
@@ -35,7 +40,54 @@ fun isAnagram(str1: String, str2: String): Boolean {
             str2.toCharArray().sorted()
 }
 
-fun lengthOfLongestSubstring(s: String) {
+//  https://www.youtube.com/watch?v=U2ppEzBaMck&list=PLEHBnWmMP--zQnyq4d2_Nj-d3nMKW5QcG&index=8
+fun lengthOfLongestSubstring(s: String): Int {
+    val charSet = mutableSetOf<Char>()
+    var left = 0
+    var maxLength = 0
+    for (right in s.indices) {
+        while (charSet.contains(s[right])) {
+            charSet.remove(s[right])
+            left++
+        }
+        charSet.add(s[right])
+        maxLength = maxOf(maxLength, right - left + 1)
+    }
+    return maxLength
+}
 
+fun hasDuplicateInArray(nums: IntArray): Boolean {
+    val numMap = hashMapOf<Int, Int>()
+    for (index in nums.indices) {
+        if (numMap.containsKey(nums[index])) {
+            return true
+        }
+        numMap[nums[index]] = index
+        println(numMap.entries)
+    }
+    return false
+}
+
+
+/**
+ * Given an array of integers nums and an integer target, return the indices i and j such that
+ * nums[i] + nums[j] == target and i != j.
+ * You may assume that every input has exactly one pair of indices i and j that satisfy the condition.
+ * Return the answer with the smaller index first.
+ * */
+fun twoSum(nums: IntArray, target: Int): IntArray {
+    val numMap = hashMapOf<Int, Int>()
+    val indexArray = IntArray(2)
+    for (index in nums.indices) {
+        val difference = target - nums[index]
+        if (numMap.containsKey(difference)) {
+            indexArray[0] = numMap[difference] ?: -1
+            indexArray[1] = index
+            return indexArray
+        }
+        numMap[nums[index]]=index
+        println(numMap.entries)
+    }
+    return indexArray
 }
 
